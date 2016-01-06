@@ -1,0 +1,57 @@
+@import "http://fonts.googleapis.com/css?family=Patua+One|Inika";
+body {
+  background: #eddbba;
+  font-family: "Inika", serif;
+  font-size: 1.1em;
+}
+
+#content {
+  color: #CC8E94;
+  font-size: 3em;
+}
+
+.container {
+  width: 90%;
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Patua One", sans-serif;
+  font-size: 3em;
+}
+
+h1 {
+  font-size: 3.5em;
+  margin-bottom: 10px;
+  color: #507356;
+}
+@media (max-width: 700px) {
+  h1 {
+    font-size: 2.2em;
+  }
+}
+
+h2 {
+  font-size: 1.5em;
+  color: #3E2B3D;
+}
+
+p {
+  font-size: 1.3em;
+  line-height: 1.5em;
+  color: #3E2B3D;
+  margin-bottom: 20px;
+  margin-top: 15px;
+}
+
+section {
+  padding: 20px 0;
+}
+
+.artgroup:after {
+  content: "";
+  display: table;
+  clear: both;
+}
