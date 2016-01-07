@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
   gutil = require('gulp-util'),
+  jshint = require('gulp-jshint'),
   browserify = require('gulp-browserify'),
   compass = require('gulp-ruby-sass'),
   connect = require('gulp-connect'),
@@ -43,6 +44,12 @@ gulp.task('js', function () {
     .pipe(connect.reload())
 });
 
+gulp.task('jshint', function() {
+  return gulp.src('builds/development/js/*.js')
+    .pipe(jshint());
+    // .pipe(jshint.reporter('YOUR_REPORTER_HERE'));
+});
+
 gulp.task('compass', function() {
    return compass(sassSources, {
      compass: true,
@@ -79,4 +86,4 @@ gulp.task('connect', function() {
   })
 });
 
-gulp.task('default', ['html', 'json', 'js', 'compass', 'connect', 'watch']);
+gulp.task('default', ['html', 'json', 'js', 'jshint', 'compass', 'connect', 'watch']);

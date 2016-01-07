@@ -1,4 +1,12 @@
 @import "http://fonts.googleapis.com/css?family=Patua+One|Inika";
+html {
+  box-sizing: border-box;
+}
+
+*, *::after, *::before {
+  box-sizing: inherit;
+}
+
 body {
   background: #eddbba;
   font-family: "Inika", serif;
