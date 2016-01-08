@@ -48,7 +48,7 @@ htmlSources = [outputDir + '*.html'];
 jsonSources = ['builds/development/js/*.json'];
 
 gulp.task('js', function () {
-  gulp.src(jsSources)
+  return gulp.src(jsSources)
     .pipe(concat('script.js'))
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
@@ -65,21 +65,21 @@ gulp.task('sass', function () {
       includePaths: neat.includePaths
     }))
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest(outputDir + 'css'))
     .pipe(csslint())
     .pipe(csslint.reporter())
+    .pipe(gulp.dest(outputDir + 'css'))
     .pipe(connect.reload());
 });
 
 gulp.task('html', function() {
-  gulp.src('builds/development/*.html')
+  return gulp.src('builds/development/*.html')
     .pipe(gulpif(env === 'production', minifyHTML()))
     .pipe(gulpif(env === 'production', gulp.dest(outputDir)))
     .pipe(connect.reload());
 });
 
 gulp.task('json', function() {
-  gulp.src(jsonSources)
+  return gulp.src(jsonSources)
     .pipe(gulpif(env === 'production', jsonminify()))
     .pipe(gulpif(env === 'production', gulp.dest('builds/production/js')))
     .pipe(connect.reload());
