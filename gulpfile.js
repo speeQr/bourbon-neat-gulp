@@ -16,6 +16,10 @@ var bourbon = require('node-bourbon');
 var neat = require('node-neat');
   neat.includePaths // Array of Neat paths (including Bourbon)
 
+//need to change everything to plugin.format and then remove all vars above that it fixes
+var gulpLoadPlugins = require('gulp-load-plugins'),
+    plugins = gulpLoadPlugins();
+
 var env,
   jsSources,
   sassSources,
