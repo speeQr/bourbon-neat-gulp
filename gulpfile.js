@@ -1,12 +1,13 @@
 var gulp = require('gulp'),
   gutil = require('gulp-util'),
-  //jshint = require('gulp-jshint'),
+  jshint = require('gulp-jshint'),
   browserify = require('gulp-browserify'),
   sass = require('gulp-sass'),
   connect = require('gulp-connect'),
   gulpif = require('gulp-if'),
   uglify = require('gulp-uglify'),
   minifyHTML = require('gulp-htmlmin'),
+  cssnano = require('gulp-cssnano'),
   jsonminify = require('gulp-jsonminify'),
   concat = require('gulp-concat');
 
@@ -14,8 +15,6 @@ var bourbon = require('node-bourbon');
   bourbon.includePaths
 var neat = require('node-neat');
   neat.includePaths // Array of Neat paths (including Bourbon)
-
-  //gutil.log ("THIS IS MY BOURBON + NEAT: " + neat.includePaths);
 
 var env,
   jsSources,
@@ -32,7 +31,7 @@ if (env==='development') {
   sassStyle = 'expanded';
 } else {
   outputDir = 'builds/production/';
-  sassStyle = 'compressed';
+  sassStyle = 'compact';
 }
 
 jsSources = [
@@ -52,9 +51,10 @@ gulp.task('js', function () {
 });
 
 gulp.task('jshint', function() {
-  return gulp.src('builds/development/js/*.js')
-    .pipe(jshint());
-    // .pipe(jshint.reporter('YOUR_REPORTER_HERE'));
+  gulp
+  .src(jsSources)
+  .pipe(jshint())
+  .pipe(jshint.reporter('default'));
 });
 
 gulp.task('sass', function () {
@@ -96,4 +96,4 @@ gulp.task('connect', function() {
   })
 });
 
-gulp.task('default', ['html', 'json', 'js', 'sass', 'connect', 'watch']);
+gulp.task('default', ['html', 'json', 'js', 'jshint', 'sass', 'connect', 'watch']);
