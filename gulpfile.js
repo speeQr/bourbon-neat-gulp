@@ -45,7 +45,7 @@ gulp.task('js', function () {
   gulp.src(jsSources)
     .pipe(concat('script.js'))
     .pipe(jshint())
-    .pipe(jshint.reporter('default'))
+    .pipe(jshint.reporter('jshint-stylish'))
     .pipe(browserify())
     .pipe(gulpif(env === 'production', uglify()))
     .pipe(gulp.dest(outputDir + 'js'))
