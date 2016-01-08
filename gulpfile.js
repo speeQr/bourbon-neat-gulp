@@ -44,17 +44,12 @@ jsonSources = ['builds/development/js/*.json'];
 gulp.task('js', function () {
   gulp.src(jsSources)
     .pipe(concat('script.js'))
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'))
     .pipe(browserify())
     .pipe(gulpif(env === 'production', uglify()))
     .pipe(gulp.dest(outputDir + 'js'))
-    .pipe(connect.reload())
-});
-
-gulp.task('jshint', function() {
-  gulp
-  .src(jsSources)
-  .pipe(jshint())
-  .pipe(jshint.reporter('default'));
+    .pipe(connect.reload());
 });
 
 gulp.task('sass', function () {
@@ -96,4 +91,4 @@ gulp.task('connect', function() {
   })
 });
 
-gulp.task('default', ['html', 'json', 'js', 'jshint', 'sass', 'connect', 'watch']);
+gulp.task('default', ['html', 'json', 'js', 'sass', 'connect', 'watch']);
