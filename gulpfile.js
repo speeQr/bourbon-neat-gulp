@@ -1,6 +1,8 @@
 var gulp = require('gulp'),
   gutil = require('gulp-util'),
   jshint = require('gulp-jshint'),
+  scsslint = require('gulp-scss-lint'),
+  csslint = require('gulp-csslint'),
   browserify = require('gulp-browserify'),
   sass = require('gulp-sass'),
   connect = require('gulp-connect'),
@@ -9,16 +11,16 @@ var gulp = require('gulp'),
   minifyHTML = require('gulp-htmlmin'),
   cssnano = require('gulp-cssnano'),
   jsonminify = require('gulp-jsonminify'),
-  concat = require('gulp-concat');
+  concat = require('gulp-concat'),
+  changed = require('gulp-changed');
 
 var bourbon = require('node-bourbon');
   bourbon.includePaths
 var neat = require('node-neat');
   neat.includePaths // Array of Neat paths (including Bourbon)
 
-//need to change everything to plugin.format and then remove all vars above that it fixes
-var gulpLoadPlugins = require('gulp-load-plugins'),
-    plugins = gulpLoadPlugins();
+// var gulpLoadPlugins = require('gulp-load-plugins'),
+//     plugins = gulpLoadPlugins();
 
 var env,
   jsSources,
@@ -41,7 +43,7 @@ if (env==='development') {
 jsSources = [
   
 ];
-sassSources = ['components/sass/style.scss'];
+sassSources = ['components/sass/**/*.scss'];
 htmlSources = [outputDir + '*.html'];
 jsonSources = ['builds/development/js/*.json'];
 
@@ -57,13 +59,15 @@ gulp.task('js', function () {
 });
 
 gulp.task('sass', function () {
-  gulp.src(sassSources)
+  return gulp.src(sassSources)
+    .pipe(scsslint())
     .pipe(sass({
       includePaths: neat.includePaths
     }))
-    .pipe(sass({outputStyle: sassStyle}))
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest(outputDir + 'css'))
+    .pipe(csslint())
+    .pipe(csslint.reporter())
     .pipe(connect.reload());
 });
 
@@ -95,4 +99,14 @@ gulp.task('connect', function() {
   })
 });
 
+// gulp.task('default', function () {
+//   return gulp.src(SRC)
+//     .pipe(changed(DEST))
+//     // ngAnnotate will only get the files that 
+//     // changed since the last time it was run 
+//     .pipe(ngAnnotate())
+//     .pipe(gulp.dest(DEST));
+// });
+
 gulp.task('default', ['html', 'json', 'js', 'sass', 'connect', 'watch']);
+

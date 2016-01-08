@@ -11,7 +11,7 @@ body {
   font-size: 1.1em; }
 
 #content {
-  color: #CC8E94;
+  color: #cc8e94;
   font-size: 3em; }
 
 .container {
@@ -35,19 +35,19 @@ h1 {
 
 h2 {
   font-size: 1.5em;
-  color: #3E2B3D; }
+  color: #3e2b3d; }
 
 p {
   font-size: 1.3em;
   line-height: 1.5em;
-  color: #3E2B3D;
+  color: #3e2b3d;
   margin-bottom: 20px;
   margin-top: 15px; }
 
 section {
   padding: 20px 0; }
 
-.artgroup:after {
+.artgroup::after {
+  clear: both;
   content: "";
-  display: table;
-  clear: both; }
+  display: table; }
