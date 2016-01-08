@@ -85,19 +85,9 @@ gulp.task('json', function() {
     .pipe(connect.reload());
 });
 
-gulp.task('watch', function() {
-  gulp.watch(jsSources, ['js']);
-  gulp.watch('components/sass/*.scss', ['sass']);
-  gulp.watch('builds/development/*.html', ['html']);
-  gulp.watch(jsonSources, ['json']);
-});
+/* WATCH TASKS */
 
-gulp.task('connect', function() {
-  connect.server({
-    root: outputDir,
-    livereload: true
-  })
-});
+// TODO: task to only watch changed files still needs to be integrated
 
 // gulp.task('default', function () {
 //   return gulp.src(SRC)
@@ -107,6 +97,31 @@ gulp.task('connect', function() {
 //     .pipe(ngAnnotate())
 //     .pipe(gulp.dest(DEST));
 // });
+
+gulp.task('watch.js', function() {
+  gulp.watch(jsSources, ['js']);
+});
+gulp.task('watch.scss', function() {
+  gulp.watch('components/sass/*.scss', ['sass']);
+});
+gulp.task('watch.html', function() {
+  gulp.watch('builds/development/*.html', ['html']);
+})
+gulp.task('watch.json', function() {
+  gulp.watch(jsonSources, ['json']);
+})
+
+gulp.task('watch', ['watch.js', 'watch.scss', 'watch.html', 'watch.json']);
+
+/* END WATCH TASKS */
+
+//Set up liveReload
+gulp.task('connect', function() {
+  connect.server({
+    root: outputDir,
+    livereload: true
+  })
+});
 
 gulp.task('default', ['html', 'json', 'js', 'sass', 'connect', 'watch']);
 
