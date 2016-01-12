@@ -10,6 +10,7 @@ var gulp = require('gulp'),
   uglify = require('gulp-uglify'),
   minifyHTML = require('gulp-htmlmin'),
   cssnano = require('gulp-cssnano'),
+  sourcemaps = require('gulp-sourcemaps'),
   jsonminify = require('gulp-jsonminify'),
   concat = require('gulp-concat'),
   changed = require('gulp-changed');
@@ -71,6 +72,9 @@ gulp.task('sass', function () {
       includePaths: neat.includePaths
     }))
     .pipe(sass().on('error', sass.logError))
+    .pipe(sourcemaps.init())
+    .pipe(cssnano())
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(outputDir + 'css'))
     .pipe(connect.reload());
 });
