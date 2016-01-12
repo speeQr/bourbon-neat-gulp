@@ -1,6 +1,2 @@
-@import "http://fonts.googleapis.com/css?family=Patua+One|Inika";
-html {
-  box-sizing: border-box; }
-
-*, *::after, *::before {
-  box-sizing: inherit; }
+@import "http://fonts.googleapis.com/css?family=Patua+One|Inika";html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{background-color:red;transform-origin:0 -250px}
+/*# sourceMappingURL=style.css.map */

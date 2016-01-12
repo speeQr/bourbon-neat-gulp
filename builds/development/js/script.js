@@ -4,7 +4,15 @@
 var myVar = 0;
 
 function f(x, y) {
-    return (x + y) * (arguments.length - 2);
+	return (x + y) * (arguments.length - 2);
 }
 f(1, 2, "hello", true, 7) === 9;
+
+var cat = {
+	meow: function meow(times) {
+		console.log("meow".repeat(times));
+	}
+};
+
+cat.meow(3);
 },{}]},{},[1])
