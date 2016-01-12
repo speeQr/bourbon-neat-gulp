@@ -30,6 +30,8 @@ var env,
   outputDir,
   sassStyle;
 
+const babel = require('gulp-babel');
+
 var env = process.env.NODE_ENV || 'development';
 
 if (env==='development') {
@@ -40,18 +42,20 @@ if (env==='development') {
   sassStyle = 'compact';
 }
 
-jsSources = [
-  
-];
+jsSources = ['components/scripts/**/*.js'];
 sassSources = ['components/sass/**/*.scss'];
 htmlSources = [outputDir + '*.html'];
 jsonSources = ['builds/development/js/*.json'];
 
 gulp.task('js', function () {
   return gulp.src(jsSources)
-    .pipe(concat('script.js'))
+    .pipe(babel({
+      presets: ['es2015']
+    }))
+    .pipe(changed(outputDir + 'js'))
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(concat('script.js'))
     .pipe(browserify())
     .pipe(gulpif(env === 'production', uglify()))
     .pipe(gulp.dest(outputDir + 'js'))
@@ -61,12 +65,12 @@ gulp.task('js', function () {
 gulp.task('sass', function () {
   return gulp.src(sassSources)
     .pipe(scsslint())
+    //changed needs to know the output dir to know what files changed
+    .pipe(changed(outputDir + 'css'))
     .pipe(sass({
       includePaths: neat.includePaths
     }))
     .pipe(sass().on('error', sass.logError))
-    .pipe(csslint())
-    .pipe(csslint.reporter())
     .pipe(gulp.dest(outputDir + 'css'))
     .pipe(connect.reload());
 });
@@ -85,18 +89,15 @@ gulp.task('json', function() {
     .pipe(connect.reload());
 });
 
+//Set up liveReload
+gulp.task('connect', function() {
+  connect.server({
+    root: outputDir,
+    livereload: true
+  })
+});
+
 /* WATCH TASKS */
-
-// TODO: task to only watch changed files still needs to be integrated
-
-// gulp.task('default', function () {
-//   return gulp.src(SRC)
-//     .pipe(changed(DEST))
-//     // ngAnnotate will only get the files that 
-//     // changed since the last time it was run 
-//     .pipe(ngAnnotate())
-//     .pipe(gulp.dest(DEST));
-// });
 
 gulp.task('watch.js', function() {
   gulp.watch(jsSources, ['js']);
@@ -114,14 +115,6 @@ gulp.task('watch.json', function() {
 gulp.task('watch', ['watch.js', 'watch.scss', 'watch.html', 'watch.json']);
 
 /* END WATCH TASKS */
-
-//Set up liveReload
-gulp.task('connect', function() {
-  connect.server({
-    root: outputDir,
-    livereload: true
-  })
-});
 
 gulp.task('default', ['html', 'json', 'js', 'sass', 'connect', 'watch']);
 
