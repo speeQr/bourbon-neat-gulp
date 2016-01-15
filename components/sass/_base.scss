@@ -2,7 +2,30 @@
 // ==============
 
 body {
-	background-color: #ff0000;
+	background-color: $dark-blue;
+}
+header {
+	background-color: #87ed43;
+}
+section {
+	@include outer-container;
 
-	transform-origin: 0 -250px;
+	display: block;
+	text-align: center;
+	color: $white;
+	background-color: #330000;
+
+}
+
+&.first {
+	@include span-columns(6);
+	background-color: $light-blue;
+	border: 1px solid $white;
+
+}
+
+&.second {
+	@include span-columns(6);
+	background-color: $light-blue;
+	border: 1px solid $white;
 }
